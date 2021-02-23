@@ -90,12 +90,12 @@ class Inventory(db.Model):
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
 
-        val = '' #get value as svg to get .svg image(modify the function as per need)
+        # val = '' #get value as svg to get .svg image(modify the function as per need)
 
-        if val == svg:
-            filename = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))+'.svg'
-        else:
-            filename = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))+'.png'
+        # if val == svg:
+        #     filename = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))+'.svg'
+        # else:
+        filename = ''.join(random.choice(string.ascii_lowercase) for _ in range(7))+'.png'
         
         img.save(filename)
         new_qr = {'QR_Code_Image': img}
