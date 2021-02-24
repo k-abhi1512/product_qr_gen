@@ -16,7 +16,7 @@ def get_product_by_id(Inventory_key):
 
 
 # route to add new product
-@app.route('/add/products', methods=['POST'])
+@app.route('/add-products', methods=['POST'])
 def add_product():
     '''Function to add new product to our database'''
     request_data = request.get_json()  # getting data from client
@@ -53,26 +53,14 @@ def get_qr_code(Inventory_key):
 
 
 #Scanning the Code    
-@app.route('/scaning', methods=['GET'])
-def scan_qr(img, Inventory_key):
-    return_value = Inventory.scan_qr(img, Inventory_key)
+@app.route('/scaning', methods=['POST'])
+def scan_qr():
+    img  = request.files['image']
+    im = cv.imread(img)
+    det = cv.QRCodeDetector()
+    Inventory_key, points, straight_qrcode =  det.detectAndDecode(im)
 
-    output = []
-
-    if return_value:
-        for product in return_value:
-            out_data = {}
-            out_data['Manufacture Date'] = product.Manufacture_Date
-            out_data['Product Id'] = product.Product_Id
-            out_data['Batch Id'] = product.Batch_Id
-            out_data['Calling_Function'] = product.Calling_Function
-            output.append(out_data)
-            
-        return jsonify({'product-details' : output})
-
-    else:
-        return jsonify({'message': 'Product Does Not Exist!'})
-
+    return jsonify({'Inventory_key': Inventory_key})
 
 
 if __name__ == "__main__":

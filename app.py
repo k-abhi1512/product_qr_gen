@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, make_response, render_template
-from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from sqlalchemy.sql import func
 import cv2 as cv
+import datetime
  
 
 app = Flask(__name__)
@@ -10,7 +11,7 @@ CORS(app)
 
 UPLOAD_FOLDER = 'static/uploads/'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/en_inventory_details'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/akumar/Desktop/product_qr_gen/en_inventory_details.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -108,10 +109,11 @@ class Inventory(db.Model):
     def scan_qr(_img, _Inventory_key):
         im = cv.imread(img)
         det = cv.QRCodeDetector()
-        retval, points, straight_qrcode = det.detectAndDecode(im)
+        retval, points, straight_qrcode =  det.detectAndDecode(im)
         if retval == _Inventory_key:
             return retval
         else:
-            return retval = False
+            retval = False
+            return retval
 
         
