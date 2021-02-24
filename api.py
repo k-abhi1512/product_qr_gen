@@ -50,7 +50,29 @@ def remove_product(Inventory_key):
 def get_qr_code(Inventory_key):
     return_value = Inventory.get_qr_code(Inventory_key)
     return jsonify(return_value)
-    
+
+
+#Scanning the Code    
+@app.route('/scaning', methods=['GET'])
+def scan_qr(img, Inventory_key):
+    return_value = Inventory.scan_qr(img, Inventory_key)
+
+    output = []
+
+    if return_value:
+        for product in return_value:
+            out_data = {}
+            out_data['Manufacture Date'] = product.Manufacture_Date
+            out_data['Product Id'] = product.Product_Id
+            out_data['Batch Id'] = product.Batch_Id
+            out_data['Calling_Function'] = product.Calling_Function
+            output.append(out_data)
+            
+        return jsonify({'product-details' : output})
+
+    else:
+        return jsonify({'message': 'Product Does Not Exist!'})
+
 
 
 if __name__ == "__main__":

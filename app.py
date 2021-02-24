@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response, render_template
 from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
 from sqlalchemy.sql import func
+import cv2 as cv
  
 
 app = Flask(__name__)
@@ -100,4 +101,17 @@ class Inventory(db.Model):
         img.save(filename)
         new_qr = {'QR_Code_Image': img}
 
-        return jsonify({'new_qr': new_qr})
+        return new_qr
+
+    
+    #Detect the QR Code Image
+    def scan_qr(_img, _Inventory_key):
+        im = cv.imread(img)
+        det = cv.QRCodeDetector()
+        retval, points, straight_qrcode = det.detectAndDecode(im)
+        if retval == _Inventory_key:
+            return retval
+        else:
+            return retval = False
+
+        
