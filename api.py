@@ -52,7 +52,7 @@ def get_qr_code(Inventory_key):
     return jsonify(return_value)
 
 
-#Scanning the Code    
+#Scanning the Code and returning the key
 @app.route('/scaning', methods=['POST'])
 def scan_qr():
     img  = request.files['image']

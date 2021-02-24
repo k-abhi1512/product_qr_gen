@@ -11,7 +11,8 @@ CORS(app)
 
 UPLOAD_FOLDER = 'static/uploads/'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/akumar/Desktop/product_qr_gen/en_inventory_details.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/akumar/Desktop/product_qr_gen/en_inventory_details.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@127.0.0.1:3306/en_inventory_details'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -105,15 +106,5 @@ class Inventory(db.Model):
         return new_qr
 
     
-    #Detect the QR Code Image
-    def scan_qr(_img, _Inventory_key):
-        im = cv.imread(img)
-        det = cv.QRCodeDetector()
-        retval, points, straight_qrcode =  det.detectAndDecode(im)
-        if retval == _Inventory_key:
-            return retval
-        else:
-            retval = False
-            return retval
 
         
